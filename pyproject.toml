@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "telegram-uploading-photos"
+version = "0.1.0"
+description = ""
+authors = ["gorag <gorbunov.alexey@gmail.com>"]
+readme = "README.md"
+packages = [{include = "telegram_uploading_photos"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
