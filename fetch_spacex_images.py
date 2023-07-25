@@ -2,7 +2,7 @@
 import argparse
 import requests
 
-import url_file
+import file_actions
 
 
 def fetch_spacex_last_launch(launch_id: str) -> None:
@@ -12,12 +12,13 @@ def fetch_spacex_last_launch(launch_id: str) -> None:
 
     spacex_images = response.json()["links"]["flickr"]["original"]
     for i, image_url in enumerate(spacex_images):
-        file_ext = url_file.get_extension(image_url)
-        url_file.download(image_url, f"images/spacex{i}{file_ext}")
+        file_ext = file_actions.get_extension(image_url)
+        file_actions.download(image_url, f"{args.image_path}{i}{file_ext}")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Fetch SpaceX images")
     parser.add_argument("--launch_id", help="ID of the launch", default="latest")
+    parser.add_argument("--image_path", help="Image path without extension", default="images/spacex")
     args = parser.parse_args()
     fetch_spacex_last_launch(args.launch_id)
