@@ -1,13 +1,14 @@
 import os
+import sys
 from pathlib import Path
 from urllib.parse import urlsplit, unquote
 
 import requests
 
 
-def download(file_url: str, file_path: str, get_params: dict = None) -> None:
-    parent_path = Path(file_path).parent
-    Path(parent_path).mkdir(parents=True, exist_ok=True)
+def download(file_url: str, file_path: Path, get_params: dict = None) -> None:
+    parent_path = file_path.parent
+    parent_path.mkdir(parents=True, exist_ok=True)
 
     response = requests.get(file_url, params=get_params)
     response.raise_for_status()
@@ -23,9 +24,11 @@ def get_extension(file_url: str) -> str:
     return extension
 
 
-def get_all_files(directory: str) -> list:
+def get_all_files(directory: Path) -> list[Path]:
+    if not directory.is_dir():
+        sys.exit("Invalid directory")
     return [
-        f"{address}\\{file}"
+        Path.joinpath(Path(address), Path(file))
         for address, dirs, files in os.walk(directory)
         for file in files
     ]
